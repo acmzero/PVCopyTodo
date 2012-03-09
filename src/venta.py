@@ -41,14 +41,14 @@ class Venta():
       
       query.next()
       asd = str(g(0))
-      print asd
+      
       self.productos[asd] = producto(g(0))
       self.productos[asd].cantidad = int(g(1))
       self.productos[asd].descuento = int(g(2))
       self.productos[asd].actualizar_subtotal()
       
     self.actualizar_total()
-    print self.total
+    
       
     
   def nueva_venta(self, cliente_id):
@@ -77,14 +77,14 @@ class Venta():
         if self.productos[codigo].existencia - self.productos[codigo].cantidad < 0:
           r = 0
           self.productos[codigo].cantidad -= cantidad
-        
-        if self.productos[codigo].nombre == "":
           del(self.productos[codigo])
           return 0
+        
+        
         self.productos[codigo].actualizar_subtotal()
       else:
         del(self.productos[codigo])
-        r=-1
+        r = -1
         
     
     self.actualizar_total()
@@ -121,12 +121,12 @@ class Venta():
     
     sql = "insert into detalle_ventas values"
     for i in self.productos.keys():
-      print (i, self.id, self.productos[i].cantidad, self.productos[i].descuento)
+      
       sql += """(%d,"%s",%d,%d),""" % (self.id, i, self.productos[i].cantidad, self.productos[i].descuento)
       
-    print sql[:-1]
+    
     query.exec_(sql[:-1])
-    self.es_nueva=False
+    self.es_nueva = False
     
     
       

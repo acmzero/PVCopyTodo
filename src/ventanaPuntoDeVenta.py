@@ -8,14 +8,17 @@ Created on 01/03/2012
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4.QtWebKit import *
+from PyQt4.QtSql import QSqlQuery
 from ui.punto_de_venta_ui import Ui_dialogo_pdeventa
 import sys
 from venta import Venta
 import BaseDatos
+
 from ui.pagar_ui import Ui_dialogo_pagar
 from ventanaNuevoProducto import ventana_nuevo_producto
 from producto import producto
 from PyQt4 import phonon
+
 class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
   def __init__(self):
     QDialog.__init__(self)
@@ -41,8 +44,8 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     
     self.pb_pagar.clicked.connect(self.efectuar_venta)
     
-    icon=QIcon()
-    icon.addPixmap(QPixmap("imagenes/enviar.png"),QIcon.Normal,QIcon.Off)
+    icon = QIcon()
+    icon.addPixmap(QPixmap("imagenes/enviar.png"), QIcon.Normal, QIcon.Off)
     self.pb_pagar.setIcon(icon)
     self.pb_buscar.setIcon(QIcon("imagenes/buscar.png"))
     self.pb_borrar.setIcon(QIcon("imagenes/borrar.png"))
@@ -50,28 +53,54 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     self.pb_borrar.setMinimumSize(10, 48)
     self.pb_buscar.setMinimumSize(10, 48)
     
-    self.table_productos.setColumnWidth(0,120)
-    self.table_productos.setColumnWidth(1,310)
-    self.table_productos.setColumnWidth(2,120)
-    self.table_productos.setColumnWidth(3,75)
-    self.table_productos.setColumnWidth(4,75)
-    self.table_productos.setColumnWidth(5,250)
+    self.table_productos.setColumnWidth(0, 120)
+    self.table_productos.setColumnWidth(1, 310)
+    self.table_productos.setColumnWidth(2, 120)
+    self.table_productos.setColumnWidth(3, 50)
+    self.table_productos.setColumnWidth(4, 75)
+    self.table_productos.setColumnWidth(5, 250)
     self.lbl_logo.setPixmap(QPixmap("imagenes/logo.png"))
     self.lbl_logo.setScaledContents(True)
     self.lbl_logo.setMinimumSize(617, 10)
-    style="QDialog{background:white; border:solid; padding:10px}"
-    self.setStyleSheet(style)
+    
+    
     
     self.actualizar_productos()
     self.reproducir_video()
+    self.usuario_id = 0
+    
+    self.vp_comercial.setMinimumSize(200, 150)
+    
+    style="""QDialog{background:white; border:solid; padding:10px}    
+    QCommandLinkButton{background:white}"""
+    self.setStyleSheet(style)
+    
     
   def reproducir_video(self):
     self.vp_comercial.play(phonon.Phonon.MediaSource("video.mp4"))
+    
+  def actualizar_cliente(self, cliente_id):
+    self.venta.cliente_id = cliente_id
+    query = QSqlQuery()
+    sql = "select nombre from clientes where cliente_id=%d" % self.venta.cliente_id
+    if query.exec_(sql):
+      query.next()
+      nombre=query.value(0).toString()
+      self.clb_cliente.setText(nombre)
     
     
   def efectuar_venta(self):
     self.vpagar = ventana_pagar(self.venta)
     self.vpagar.show()
+    
+  def actualizar_usuario(self):
+    query = QSqlQuery()
+    sql = "select nombre from usuarios where usuario_id=%d" % self.usuario_id
+    if query.exec_(sql):
+      query.next()
+      nombre = query.value(0).toString()
+      self.clb_usuario.setText("Atiende: %s" % nombre)
+    self.actualizar_cliente(self.venta.cliente_id)
     
 
     
@@ -101,12 +130,12 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       descuento = int(codigo.split('/')[0])
       codigo = str(codigo.split('/')[1])
     
-    print producto(codigo).existe
+    
     if producto(codigo).existe:
       resultado = self.venta.agregar_producto(codigo, cantidad, descuento)
-      print resultado
+      
       if resultado == 0:
-        gg = QMessageBox(self)
+        gg = QMessageBox()
         gg.setText("Error al agregar producto, no existe o la cantidad excedio la existencia")
         gg.setStandardButtons(gg.Ok)
         gg.exec_()
@@ -120,15 +149,15 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
         self.actualizar_productos()
         
     else:
-      gg=QMessageBox()
+      gg = QMessageBox()
       gg.setText("Producto no existe desea Agregarlo??")
-      gg.setStandardButtons(gg.Ok|gg.Cancel)
+      gg.setStandardButtons(gg.Ok | gg.Cancel)
       gg.exec_()
-      if gg.result()==gg.Ok:
-        self.vap=ventana_nuevo_producto()
+      if gg.result() == gg.Ok:
+        self.vap = ventana_nuevo_producto()
         self.vap.line_codigo.setText(codigo)
         self.vap.line_codigo.setEnabled(False)
-        self.vap.llamado=True
+        self.vap.llamado = True
         self.vap.show()
       else:
         self.line_codigo.setFocus()
@@ -137,6 +166,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     
   
   def actualizar_productos(self):
+    
     numero_productos = len(self.venta.productos.keys())
     self.table_productos.setRowCount(numero_productos)
     cont = 0
@@ -162,7 +192,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       cont += 1
     
     self.lbl_total.setText("$ " + str(self.venta.total))
-    if self.venta.total<=0:
+    if self.venta.total <= 0:
       self.pb_pagar.setEnabled(False)
     else:
       self.pb_pagar.setEnabled(True)
@@ -191,33 +221,22 @@ class ventana_pagar(QDialog, Ui_dialogo_pagar):
   def efectuar_venta(self):
     self.venta.fecha = QDate.currentDate().toString("yyyy-MM-dd")
     self.venta.hora = QTime.currentTime().toString("hh:mm")
-    self.venta.pagado=self.dsb_efectivo.value()
+    self.venta.pagado = self.dsb_efectivo.value()
     self.venta.efectuar_venta()
     if self.chk_ticket.isChecked():
       from ticket import Ticket
-      a=Ticket(self.venta)
+      a = Ticket(self.venta)
       
-      htm=open("tick.html",'r').read()
-      self.web=QWebView()
+      htm = open("tick.html", 'r').read()
+      self.web = QWebView()
       self.web.load(QUrl("http://localhost/~heli/tick.html"))
       self.web.show()
-      self.qp=QPrinter()
+      self.qp = QPrinter()
       self.qp.setOutputFormat(1)
       self.qp.setOutputFileName("ticket.pdf")
       self.web.print_(self.qp)
-      
-      
-      
-    
-    
-    
     self.close()
-    
-      
-      
-      
-    
-    
+
 if __name__ == "__main__":
   app = QApplication(sys.argv)
   bd = BaseDatos.base_datos()

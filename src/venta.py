@@ -19,6 +19,7 @@ class Venta():
       self.recuperar_datos()
     self.es_nueva = True
     self.cliente = None
+    self.usuario=None
     
   def recuperar_datos(self):
     query = QSqlQuery()

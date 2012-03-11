@@ -201,6 +201,15 @@ QCommandLinkButton{background:white}</string>
    <header location="global">phonon/videoplayer.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>line_codigo</tabstop>
+  <tabstop>table_productos</tabstop>
+  <tabstop>pb_borrar</tabstop>
+  <tabstop>clb_usuario</tabstop>
+  <tabstop>clb_cliente</tabstop>
+  <tabstop>pb_pagar</tabstop>
+  <tabstop>pb_buscar</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

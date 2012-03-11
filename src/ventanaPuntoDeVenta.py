@@ -8,17 +8,18 @@ Created on 01/03/2012
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4.QtWebKit import *
-from PyQt4.QtSql import QSqlQuery
+from PyQt4.QtSql import *
 from ui.punto_de_venta_ui import Ui_dialogo_pdeventa
 import sys
 from venta import Venta
 import BaseDatos
-
 from ui.pagar_ui import Ui_dialogo_pagar
 from ventanaNuevoProducto import ventana_nuevo_producto
 from producto import producto
 from PyQt4 import phonon
+from ui.buscar_productos_ui import Ui_dialogo_busqueda_productos
 
+paso_producto=""
 class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
   def __init__(self):
     QDialog.__init__(self)
@@ -34,7 +35,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     self.lbl_hora.setText(self.hora)
     
     self.timer = QTimer()
-    self.timer.setInterval(1000)
+    self.timer.setInterval(500)
     self.timer.timeout.connect(self.actualizar_hora)
     self.timer.start()
     
@@ -43,7 +44,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     self.table_productos.setHorizontalHeaderLabels(cabecera)
     
     self.pb_pagar.clicked.connect(self.efectuar_venta)
-    
+    self.pb_buscar.clicked.connect(self.mostrar_buscar_productos)
     icon = QIcon()
     icon.addPixmap(QPixmap("imagenes/enviar.png"), QIcon.Normal, QIcon.Off)
     self.pb_pagar.setIcon(icon)
@@ -71,10 +72,15 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     
     self.vp_comercial.setMinimumSize(200, 150)
     
-    style="""QDialog{background:white; border:solid; padding:10px}    
+    style = """QDialog{background:white; border:solid; padding:10px}    
     QCommandLinkButton{background:white}"""
     self.setStyleSheet(style)
     
+    
+    
+  def mostrar_buscar_productos(self):
+    self.vbpp = ventana_buscar_producto()
+    self.vbpp.show()
     
   def reproducir_video(self):
     self.vp_comercial.play(phonon.Phonon.MediaSource("video.mp4"))
@@ -85,8 +91,9 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     sql = "select nombre from clientes where cliente_id=%d" % self.venta.cliente_id
     if query.exec_(sql):
       query.next()
-      nombre=query.value(0).toString()
+      nombre = query.value(0).toString()
       self.clb_cliente.setText(nombre)
+      self.venta.cliente=nombre
     
     
   def efectuar_venta(self):
@@ -100,17 +107,25 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       query.next()
       nombre = query.value(0).toString()
       self.clb_usuario.setText("Atiende: %s" % nombre)
+      self.venta.usuario=nombre
     self.actualizar_cliente(self.venta.cliente_id)
     
 
     
     
   def actualizar_hora(self):
+    global paso_producto
     self.hora = QTime.currentTime().toString()
     self.lbl_hora.setText(self.hora)
     if not self.venta.es_nueva:
       self.venta = Venta(-1)
       self.actualizar_productos()
+      
+    if not paso_producto=="":
+      self.line_codigo.setText(self.line_codigo.text()+paso_producto)
+      paso_producto=""
+      self.line_codigo.setFocus()
+      
     
     
   def agregar_producto(self):
@@ -138,6 +153,8 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
         gg = QMessageBox()
         gg.setText("Error al agregar producto, no existe o la cantidad excedio la existencia")
         gg.setStandardButtons(gg.Ok)
+        gg.setWindowTitle("CopyTodo - Advertencia")
+        
         gg.exec_()
         self.line_codigo.clear()
         self.line_codigo.setFocus()
@@ -152,6 +169,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       gg = QMessageBox()
       gg.setText("Producto no existe desea Agregarlo??")
       gg.setStandardButtons(gg.Ok | gg.Cancel)
+      gg.setWindowTitle("CopyTodo - Producto Nuevo?")
       gg.exec_()
       if gg.result() == gg.Ok:
         self.vap = ventana_nuevo_producto()
@@ -230,13 +248,49 @@ class ventana_pagar(QDialog, Ui_dialogo_pagar):
       htm = open("tick.html", 'r').read()
       self.web = QWebView()
       self.web.load(QUrl("http://localhost/~heli/tick.html"))
-      self.web.show()
+      
       self.qp = QPrinter()
+      self.qp.setPrinterName("AFICIO")
+      self.qpd=QPrintDialog(self.qp)
+      self.qpd.exec_()
+      #self.qp.setPrintRange(0)
+      
       self.qp.setOutputFormat(1)
       self.qp.setOutputFileName("ticket.pdf")
+      #self.web.render(self.qp)
       self.web.print_(self.qp)
     self.close()
+    
+    
 
+
+class ventana_buscar_producto(QDialog, Ui_dialogo_busqueda_productos):
+  def __init__(self):
+    QDialog.__init__(self)
+    self.setupUi(self)
+    
+    self.modelo = QSqlQueryModel()
+    sql = "select * from busqueda_productos"
+    self.modelo.setQuery(sql)
+    self.table_resultados.setModel(self.modelo)
+    self.table_resultados.setColumnWidth(1,300)
+    self.line_producto.textChanged.connect(self.actualizar_tabla)
+    self.table_resultados.doubleClicked.connect(self.pasar_producto)
+    self.pushButton.clicked.connect(self.pasar_producto)
+    
+  def actualizar_tabla(self):
+    sql="select * from busqueda_productos where nombre like '%%%s%%'"%self.line_producto.text()
+    self.modelo.setQuery(sql)
+    
+  def pasar_producto(self):
+    global paso_producto
+    codigo=self.modelo.record(self.table_resultados.currentIndex().row()).value("codigo").toString()
+    paso_producto=codigo
+    self.close()
+  
+  
+    
+    
 if __name__ == "__main__":
   app = QApplication(sys.argv)
   bd = BaseDatos.base_datos()

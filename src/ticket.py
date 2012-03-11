@@ -31,7 +31,8 @@ class Ticket():
     p("TEL: 674 862 45 58")
     
     w("<br/>")
-    
+    p("CLIENTE "+str(self.venta.cliente))
+    p("LE ATENDIO "+str(self.venta.usuario))
     p("NOTA #%d" % self.venta.id)
     p(self.venta.fecha)
     p(self.venta.hora)

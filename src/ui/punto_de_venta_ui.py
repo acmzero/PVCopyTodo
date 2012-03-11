@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'punto_de_venta.ui'
 #
-# Created: Fri Mar  9 09:41:43 2012
+# Created: Sat Mar 10 17:45:24 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,7 +18,8 @@ class Ui_dialogo_pdeventa(object):
     def setupUi(self, dialogo_pdeventa):
         dialogo_pdeventa.setObjectName(_fromUtf8("dialogo_pdeventa"))
         dialogo_pdeventa.resize(683, 580)
-        dialogo_pdeventa.setStyleSheet(_fromUtf8("QDialog{background:white; border:solid; padding:10px}"))
+        dialogo_pdeventa.setStyleSheet(_fromUtf8("QDialog{background:white; border:solid; padding:10px}\n"
+"QCommandLinkButton{background:white}"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(dialogo_pdeventa)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
         self.horizontalLayout_4 = QtGui.QHBoxLayout()
@@ -122,6 +123,12 @@ class Ui_dialogo_pdeventa(object):
 
         self.retranslateUi(dialogo_pdeventa)
         QtCore.QMetaObject.connectSlotsByName(dialogo_pdeventa)
+        dialogo_pdeventa.setTabOrder(self.line_codigo, self.table_productos)
+        dialogo_pdeventa.setTabOrder(self.table_productos, self.pb_borrar)
+        dialogo_pdeventa.setTabOrder(self.pb_borrar, self.clb_usuario)
+        dialogo_pdeventa.setTabOrder(self.clb_usuario, self.clb_cliente)
+        dialogo_pdeventa.setTabOrder(self.clb_cliente, self.pb_pagar)
+        dialogo_pdeventa.setTabOrder(self.pb_pagar, self.pb_buscar)
 
     def retranslateUi(self, dialogo_pdeventa):
         dialogo_pdeventa.setWindowTitle(QtGui.QApplication.translate("dialogo_pdeventa", "CopyTodo", None, QtGui.QApplication.UnicodeUTF8))

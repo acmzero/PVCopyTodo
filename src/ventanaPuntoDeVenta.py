@@ -19,7 +19,7 @@ from producto import producto
 from PyQt4 import phonon
 from ui.buscar_productos_ui import Ui_dialogo_busqueda_productos
 
-paso_producto=""
+paso_producto = ""
 class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
   def __init__(self):
     QDialog.__init__(self)
@@ -81,7 +81,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     
   def mostrar_clientes(self):
     from ventanaClientes import ventana_clientes
-    self.vmc=ventana_clientes(self.venta)
+    self.vmc = ventana_clientes(self.venta)
     self.vmc.show()
     
   def mostrar_buscar_productos(self):
@@ -98,8 +98,8 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     if query.exec_(sql):
       query.next()
       nombre = query.value(0).toString()
-      self.clb_cliente.setText("Cliente: " +nombre)
-      self.venta.cliente=nombre
+      self.clb_cliente.setText("Cliente: " + nombre)
+      self.venta.cliente = nombre
     
     
   def efectuar_venta(self):
@@ -113,7 +113,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       query.next()
       nombre = query.value(0).toString()
       self.clb_usuario.setText("Atiende: %s" % nombre)
-      self.venta.usuario=nombre
+      self.venta.usuario = nombre
     self.actualizar_cliente(self.venta.cliente_id)
     
 
@@ -127,9 +127,9 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       self.venta = Venta(-1)
       self.actualizar_productos()
       
-    if not paso_producto=="":
-      self.line_codigo.setText(self.line_codigo.text()+paso_producto)
-      paso_producto=""
+    if not paso_producto == "":
+      self.line_codigo.setText(self.line_codigo.text() + paso_producto)
+      paso_producto = ""
       self.line_codigo.setFocus()
     self.actualizar_cliente(self.venta.cliente_id)
       
@@ -212,7 +212,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       self.table_productos.setItem(cont, 4, qdes)
       self.table_productos.setItem(cont, 5, qsub)
       cont += 1
-    
+    self.venta.actualizar_total()
     self.lbl_total.setText("$ " + str(self.venta.total))
     if self.venta.total <= 0:
       self.pb_pagar.setEnabled(False)
@@ -220,11 +220,12 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       self.pb_pagar.setEnabled(True)
       
   def eliminar_producto(self):
-    codigo=str(self.table_productos.itemAt(0,self.table_productos.currentIndex().row()).text())
-    print codigo
+    codigo = str(self.table_productos.itemAt(0, self.table_productos.currentIndex().row()).text())
     
-    del(self.venta.productos[codigo])
+    
+    self.venta.borrar_producto(codigo)
     self.actualizar_productos()
+    
     
 
 class ventana_pagar(QDialog, Ui_dialogo_pagar):
@@ -262,7 +263,7 @@ class ventana_pagar(QDialog, Ui_dialogo_pagar):
       
       self.qp = QPrinter()
       self.qp.setPrinterName("AFICIO")
-      self.qpd=QPrintDialog(self.qp)
+      self.qpd = QPrintDialog(self.qp)
       self.qpd.exec_()
       #self.qp.setPrintRange(0)
       
@@ -284,19 +285,19 @@ class ventana_buscar_producto(QDialog, Ui_dialogo_busqueda_productos):
     sql = "select * from busqueda_productos"
     self.modelo.setQuery(sql)
     self.table_resultados.setModel(self.modelo)
-    self.table_resultados.setColumnWidth(1,300)
+    self.table_resultados.setColumnWidth(1, 300)
     self.line_producto.textChanged.connect(self.actualizar_tabla)
     self.table_resultados.doubleClicked.connect(self.pasar_producto)
     self.pushButton.clicked.connect(self.pasar_producto)
     
   def actualizar_tabla(self):
-    sql="select * from busqueda_productos where nombre like '%%%s%%'"%self.line_producto.text()
+    sql = "select * from busqueda_productos where nombre like '%%%s%%'" % self.line_producto.text()
     self.modelo.setQuery(sql)
     
   def pasar_producto(self):
     global paso_producto
-    codigo=self.modelo.record(self.table_resultados.currentIndex().row()).value("codigo").toString()
-    paso_producto=codigo
+    codigo = self.modelo.record(self.table_resultados.currentIndex().row()).value("codigo").toString()
+    paso_producto = codigo
     self.close()
   
   

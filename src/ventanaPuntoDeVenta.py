@@ -76,7 +76,13 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     QCommandLinkButton{background:white}"""
     self.setStyleSheet(style)
     
+    self.clb_cliente.clicked.connect(self.mostrar_clientes)
+    self.pb_borrar.clicked.connect(self.eliminar_producto)
     
+  def mostrar_clientes(self):
+    from ventanaClientes import ventana_clientes
+    self.vmc=ventana_clientes(self.venta)
+    self.vmc.show()
     
   def mostrar_buscar_productos(self):
     self.vbpp = ventana_buscar_producto()
@@ -92,7 +98,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     if query.exec_(sql):
       query.next()
       nombre = query.value(0).toString()
-      self.clb_cliente.setText(nombre)
+      self.clb_cliente.setText("Cliente: " +nombre)
       self.venta.cliente=nombre
     
     
@@ -125,6 +131,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       self.line_codigo.setText(self.line_codigo.text()+paso_producto)
       paso_producto=""
       self.line_codigo.setFocus()
+    self.actualizar_cliente(self.venta.cliente_id)
       
     
     
@@ -184,7 +191,6 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     
   
   def actualizar_productos(self):
-    
     numero_productos = len(self.venta.productos.keys())
     self.table_productos.setRowCount(numero_productos)
     cont = 0
@@ -205,8 +211,6 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       self.table_productos.setItem(cont, 3, qcan)
       self.table_productos.setItem(cont, 4, qdes)
       self.table_productos.setItem(cont, 5, qsub)
-      
-      
       cont += 1
     
     self.lbl_total.setText("$ " + str(self.venta.total))
@@ -214,6 +218,13 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       self.pb_pagar.setEnabled(False)
     else:
       self.pb_pagar.setEnabled(True)
+      
+  def eliminar_producto(self):
+    codigo=str(self.table_productos.itemAt(0,self.table_productos.currentIndex().row()).text())
+    print codigo
+    
+    del(self.venta.productos[codigo])
+    self.actualizar_productos()
     
 
 class ventana_pagar(QDialog, Ui_dialogo_pagar):

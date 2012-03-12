@@ -9,20 +9,23 @@ from PyQt4.QtSql import QSqlQuery
 import sys
 import BaseDatos
 class Cliente():
-  def __init__(self, id):
+  def __init__(self, id=None):
     self.id = id
     self.nombre = ""
-    self.apellidos = ""
+    #self.apellidos = ""
     self.telefono = ""
     self.celular = ""
     self.direccion = ""
-    self.recuperar_datos()
+    self.CP = ""
+    self.RFC = ""
+    if not id == None:
+      self.recuperar_datos()
     
     
   
   def recuperar_datos(self):
     query = QSqlQuery()
-    sql = "select nombre,apellidos,telefono,celular,direccion from clientes where cliente_id=?"
+    sql = "select nombre,telefono,celular,direccion,CP,RFC from clientes where cliente_id=?"
     query.prepare(sql)
     query.addBindValue(self.id)
     query.exec_()
@@ -34,25 +37,32 @@ class Cliente():
     g = lambda x:query.value(x).toString()
     query.next()
     self.nombre = g(0)
-    self.apellidos = g(1)
-    self.telefono = g(2)
-    self.celular = g(3)
-    self.direccion = g(4)
+    #self.apellidos = g(1)
+    self.telefono = g(1)
+    self.celular = g(2)
+    self.direccion = g(3)
+    self.CP = g(4)
+    self.RFC = g(5)
     
     
   def nuevo_cliente(self, datos):
     query = QSqlQuery()
-    sql = """insert into clientes values(null,"%s","%s","%s","%s","%s")""" % datos
+    sql = """insert into clientes values(null,"%s","%s","%s","%s","%s","%s")""" % datos
     
     if not query.exec_(sql):
       print "Error al crear un nuevo cliente."
+      
+  def actualizar_cliente(self, datos):
+    query = QSqlQuery()
+    sql = """ update clientes set nombre="%s", telefono="%s",celular="%s",direccion="%s", CP="%s", RFC="%s" """ % datos
+    sql += " where cliente_id=%d" % self.id
+    
+    if not query.exec_(sql):
+      print "Error al actualizar Cliente"
+      return False
+    else:
+      return True
     
     
-app = QApplication(sys.argv)
-db = BaseDatos.base_datos()
-tino = Cliente(21)
-for i in range(10):
-  tino.nuevo_cliente(("Cliente" + str(i), "Apellidos " + str(i), str(i) * 5, str(i) * 5, "Dasdsa"))
 
-app.exec_()  
     

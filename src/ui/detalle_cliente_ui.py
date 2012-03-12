@@ -1,0 +1,135 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'detalle_cliente.ui'
+#
+# Created: Sun Mar 11 16:32:50 2012
+#      by: PyQt4 UI code generator 4.9.1
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+class Ui_dialogo_detalle_cliente(object):
+    def setupUi(self, dialogo_detalle_cliente):
+        dialogo_detalle_cliente.setObjectName(_fromUtf8("dialogo_detalle_cliente"))
+        dialogo_detalle_cliente.resize(498, 279)
+        dialogo_detalle_cliente.setStyleSheet(_fromUtf8("QDialog{background:black url(\"imagenes/cliente.png\") no-repeat left bottom}\n"
+"QPushButton{font-size:14pt}\n"
+"QLineEdit{padding:5px;}\n"
+"QLabel{color:white}\n"
+""))
+        self.verticalLayout_3 = QtGui.QVBoxLayout(dialogo_detalle_cliente)
+        self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
+        self.label_7 = QtGui.QLabel(dialogo_detalle_cliente)
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_7.setFont(font)
+        self.label_7.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_7.setObjectName(_fromUtf8("label_7"))
+        self.verticalLayout_3.addWidget(self.label_7)
+        self.horizontalLayout_7 = QtGui.QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(_fromUtf8("horizontalLayout_7"))
+        self.verticalLayout = QtGui.QVBoxLayout()
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.label = QtGui.QLabel(dialogo_detalle_cliente)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.horizontalLayout.addWidget(self.label)
+        self.line_nombre = QtGui.QLineEdit(dialogo_detalle_cliente)
+        self.line_nombre.setObjectName(_fromUtf8("line_nombre"))
+        self.horizontalLayout.addWidget(self.line_nombre)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.horizontalLayout_2 = QtGui.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
+        self.label_2 = QtGui.QLabel(dialogo_detalle_cliente)
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.horizontalLayout_2.addWidget(self.label_2)
+        self.line_telefono = QtGui.QLineEdit(dialogo_detalle_cliente)
+        self.line_telefono.setObjectName(_fromUtf8("line_telefono"))
+        self.horizontalLayout_2.addWidget(self.line_telefono)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.horizontalLayout_3 = QtGui.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
+        self.label_3 = QtGui.QLabel(dialogo_detalle_cliente)
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.horizontalLayout_3.addWidget(self.label_3)
+        self.line_celular = QtGui.QLineEdit(dialogo_detalle_cliente)
+        self.line_celular.setObjectName(_fromUtf8("line_celular"))
+        self.horizontalLayout_3.addWidget(self.line_celular)
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.horizontalLayout_7.addLayout(self.verticalLayout)
+        self.verticalLayout_2 = QtGui.QVBoxLayout()
+        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
+        self.horizontalLayout_4 = QtGui.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
+        self.label_4 = QtGui.QLabel(dialogo_detalle_cliente)
+        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.horizontalLayout_4.addWidget(self.label_4)
+        self.line_direccion = QtGui.QLineEdit(dialogo_detalle_cliente)
+        self.line_direccion.setObjectName(_fromUtf8("line_direccion"))
+        self.horizontalLayout_4.addWidget(self.line_direccion)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_4)
+        self.horizontalLayout_5 = QtGui.QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
+        self.label_5 = QtGui.QLabel(dialogo_detalle_cliente)
+        self.label_5.setObjectName(_fromUtf8("label_5"))
+        self.horizontalLayout_5.addWidget(self.label_5)
+        self.line_cp = QtGui.QLineEdit(dialogo_detalle_cliente)
+        self.line_cp.setObjectName(_fromUtf8("line_cp"))
+        self.horizontalLayout_5.addWidget(self.line_cp)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_5)
+        self.horizontalLayout_6 = QtGui.QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(_fromUtf8("horizontalLayout_6"))
+        self.label_6 = QtGui.QLabel(dialogo_detalle_cliente)
+        self.label_6.setObjectName(_fromUtf8("label_6"))
+        self.horizontalLayout_6.addWidget(self.label_6)
+        self.line_rfc = QtGui.QLineEdit(dialogo_detalle_cliente)
+        self.line_rfc.setObjectName(_fromUtf8("line_rfc"))
+        self.horizontalLayout_6.addWidget(self.line_rfc)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_6)
+        self.horizontalLayout_7.addLayout(self.verticalLayout_2)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_7)
+        spacerItem = QtGui.QSpacerItem(20, 59, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(spacerItem)
+        self.horizontalLayout_8 = QtGui.QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(_fromUtf8("horizontalLayout_8"))
+        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem1)
+        self.pushButton = QtGui.QPushButton(dialogo_detalle_cliente)
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.horizontalLayout_8.addWidget(self.pushButton)
+        self.pushButton_2 = QtGui.QPushButton(dialogo_detalle_cliente)
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.horizontalLayout_8.addWidget(self.pushButton_2)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_8)
+
+        self.retranslateUi(dialogo_detalle_cliente)
+        QtCore.QObject.connect(self.line_nombre, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.line_telefono.setFocus)
+        QtCore.QObject.connect(self.line_telefono, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.line_celular.setFocus)
+        QtCore.QObject.connect(self.line_celular, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.line_direccion.setFocus)
+        QtCore.QObject.connect(self.line_direccion, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.line_cp.setFocus)
+        QtCore.QObject.connect(self.line_cp, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.line_rfc.setFocus)
+        QtCore.QObject.connect(self.line_rfc, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.pushButton.setFocus)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), dialogo_detalle_cliente.reject)
+        QtCore.QMetaObject.connectSlotsByName(dialogo_detalle_cliente)
+
+    def retranslateUi(self, dialogo_detalle_cliente):
+        dialogo_detalle_cliente.setWindowTitle(QtGui.QApplication.translate("dialogo_detalle_cliente", "Cliente", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setText(QtGui.QApplication.translate("dialogo_detalle_cliente", "Cliente:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("dialogo_detalle_cliente", "Nombre", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("dialogo_detalle_cliente", "Telefono", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("dialogo_detalle_cliente", "Celular", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("dialogo_detalle_cliente", "Direccion", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_5.setText(QtGui.QApplication.translate("dialogo_detalle_cliente", "CP", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("dialogo_detalle_cliente", "RFC", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton.setText(QtGui.QApplication.translate("dialogo_detalle_cliente", "Aceptar", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_2.setText(QtGui.QApplication.translate("dialogo_detalle_cliente", "Salir", None, QtGui.QApplication.UnicodeUTF8))
+

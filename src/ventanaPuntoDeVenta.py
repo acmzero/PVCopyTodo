@@ -16,7 +16,7 @@ import BaseDatos
 from ui.pagar_ui import Ui_dialogo_pagar
 from ventanaNuevoProducto import ventana_nuevo_producto
 from producto import producto
-from PyQt4 import phonon
+
 from ui.buscar_productos_ui import Ui_dialogo_busqueda_productos
 
 
@@ -71,7 +71,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     self.reproducir_video()
     self.usuario_id = 0
     
-    self.vp_comercial.setMinimumSize(200, 150)
+    #self.vp_comercial.setMinimumSize(200, 150)
     
     style = """QDialog{background:white; border:solid; padding:10px}    
     QCommandLinkButton{background:white}"""
@@ -91,7 +91,8 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     self.vbpp.show()
     
   def reproducir_video(self):
-    self.vp_comercial.play(phonon.Phonon.MediaSource("video.mp4"))
+    #self.vp_comercial.play(phonon.Phonon.MediaSource("video.mp4"))
+    pass
     
   def actualizar_cliente(self, cliente_id):
     self.venta.cliente_id = cliente_id

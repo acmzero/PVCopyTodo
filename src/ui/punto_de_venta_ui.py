@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'punto_de_venta.ui'
 #
-# Created: Sat Mar 10 17:45:24 2012
+# Created: Sat Mar 17 12:09:39 2012
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -72,11 +72,6 @@ class Ui_dialogo_pdeventa(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        self.vp_comercial = phonon.Phonon.VideoPlayer(dialogo_pdeventa)
-        self.vp_comercial.setMinimumSize(QtCore.QSize(480, 320))
-        self.vp_comercial.setMaximumSize(QtCore.QSize(480, 320))
-        self.vp_comercial.setObjectName(_fromUtf8("vp_comercial"))
-        self.horizontalLayout_2.addWidget(self.vp_comercial)
         self.table_productos = QtGui.QTableWidget(dialogo_pdeventa)
         font = QtGui.QFont()
         font.setPointSize(16)
@@ -142,4 +137,3 @@ class Ui_dialogo_pdeventa(object):
         self.pb_borrar.setText(QtGui.QApplication.translate("dialogo_pdeventa", "Borrar", None, QtGui.QApplication.UnicodeUTF8))
         self.lbl_total.setText(QtGui.QApplication.translate("dialogo_pdeventa", "$.", None, QtGui.QApplication.UnicodeUTF8))
 
-from PyQt4 import phonon

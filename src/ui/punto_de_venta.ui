@@ -110,22 +110,6 @@ QCommandLinkButton{background:white}</string>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="Phonon::VideoPlayer" name="vp_comercial">
-       <property name="minimumSize">
-        <size>
-         <width>480</width>
-         <height>320</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>480</width>
-         <height>320</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QTableWidget" name="table_productos">
        <property name="font">
         <font>
@@ -194,13 +178,6 @@ QCommandLinkButton{background:white}</string>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Phonon::VideoPlayer</class>
-   <extends>QWidget</extends>
-   <header location="global">phonon/videoplayer.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>line_codigo</tabstop>
   <tabstop>table_productos</tabstop>

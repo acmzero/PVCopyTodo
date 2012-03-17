@@ -25,6 +25,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
   def __init__(self):
     QDialog.__init__(self)
     self.setupUi(self)
+    self.resize(1024,768)
     self.line_codigo.setFocus()
     self.venta = Venta(-1)
     self.venta.nueva_venta(1)

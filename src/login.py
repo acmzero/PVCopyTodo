@@ -71,13 +71,7 @@ class ventana_login(QDialog, Ui_dialogo_login):
         gg.setText(u"Usuario y/o Contraseña invalida")
         gg.setStandardButtons(gg.Ok)
         gg.exec_()
-        
-      
-
-        
-    
-    
-    
+   
 if __name__ == "__main__":
   app = QApplication(sys.argv)
   app.setApplicationName("PVCopyTodo")

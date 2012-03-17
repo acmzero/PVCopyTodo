@@ -15,11 +15,13 @@ class Venta():
     self.productos = {}
     self.total = 0.0
     self.pagado = 0.0
-    if self.id >= 0:
-      self.recuperar_datos()
     self.es_nueva = True
     self.cliente = None
     self.usuario=None
+    self.usuario_id=None
+    if self.id >= 0:
+      self.recuperar_datos()
+    
     
   def recuperar_datos(self):
     query = QSqlQuery()
@@ -110,7 +112,7 @@ class Venta():
   def efectuar_venta(self):
     print "Efectuando Venta"
     query = QSqlQuery()
-    sql = "insert into ventas values(null,?,?,?,?,?,?)"
+    sql = "insert into ventas values(null,?,?,?,?,?,?,?)"
     query.prepare(sql)
     query.addBindValue(self.cliente_id)
     query.addBindValue((self.fecha))
@@ -118,6 +120,7 @@ class Venta():
     query.addBindValue(self.notas)
     query.addBindValue(self.total)
     query.addBindValue(self.pagado)
+    query.addBindValue(self.usuario_id)
     query.exec_()
     
     sql = "insert into detalle_ventas values"

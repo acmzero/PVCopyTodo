@@ -8,7 +8,7 @@ from venta import Venta
 class Ticket():
   def __init__(self, Venta):
     self.venta = Venta
-    base_dir = "/home/heli/public_html/"
+    base_dir = "./"
     self.archivo = open(base_dir + "tick.html", 'w')
     
     self.escribir_datos()
@@ -43,7 +43,7 @@ class Ticket():
     w("<table width=100% style='text-align:center'><tr><td>#</td><td>PRECIO</td><td>SUBT</td></tr></table>")
     
     for i in self.venta.productos.keys():
-      print self.venta.productos[i]
+      
       w("<hr/>")
       w("<table width=100% style='text-align:center'><tr><td>" + str(i[:9]).upper() + "</td><td>" + str(self.venta.productos[i].nombre[:19]).upper() + "</td></tr></table>")
       w("<table width=100%" + " style='text-align:center'><tr><td>%d</td><td>$%.2f</td><td>$%.2f</td></tr></table>" % (self.venta.productos[i].cantidad, self.venta.productos[i].precio, self.venta.productos[i].subtotal))

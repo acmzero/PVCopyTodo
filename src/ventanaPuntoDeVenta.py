@@ -19,6 +19,7 @@ from producto import producto
 from PyQt4 import phonon
 from ui.buscar_productos_ui import Ui_dialogo_busqueda_productos
 
+
 paso_producto = ""
 class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
   def __init__(self):
@@ -78,6 +79,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     
     self.clb_cliente.clicked.connect(self.mostrar_clientes)
     self.pb_borrar.clicked.connect(self.eliminar_producto)
+    self.clb_usuario.clicked.connect(self.logout)
     
   def mostrar_clientes(self):
     from ventanaClientes import ventana_clientes
@@ -114,6 +116,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       nombre = query.value(0).toString()
       self.clb_usuario.setText("Atiende: %s" % nombre)
       self.venta.usuario = nombre
+      self.venta.usuario_id=self.usuario_id
     self.actualizar_cliente(self.venta.cliente_id)
     
 
@@ -226,6 +229,11 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     self.venta.borrar_producto(codigo)
     self.actualizar_productos()
     
+  def logout(self):
+    from login import ventana_login
+    self.vlo=ventana_login()
+    self.vlo.show()
+    self.close()
     
 
 class ventana_pagar(QDialog, Ui_dialogo_pagar):
@@ -253,24 +261,27 @@ class ventana_pagar(QDialog, Ui_dialogo_pagar):
     self.venta.hora = QTime.currentTime().toString("hh:mm")
     self.venta.pagado = self.dsb_efectivo.value()
     self.venta.efectuar_venta()
-    if self.chk_ticket.isChecked():
-      from ticket import Ticket
-      a = Ticket(self.venta)
-      
-      htm = open("tick.html", 'r').read()
-      self.web = QWebView()
-      self.web.load(QUrl("http://localhost/~heli/tick.html"))
-      
-      self.qp = QPrinter()
-      self.qp.setPrinterName("AFICIO")
-      self.qpd = QPrintDialog(self.qp)
-      self.qpd.exec_()
-      #self.qp.setPrintRange(0)
-      
-      self.qp.setOutputFormat(1)
-      self.qp.setOutputFileName("ticket.pdf")
-      #self.web.render(self.qp)
-      self.web.print_(self.qp)
+    try:
+      if self.chk_ticket.isChecked():
+        from ticket import Ticket
+        a = Ticket(self.venta)
+        
+        #htm = open("tick.html", 'r').read()
+        self.web = QWebView()
+        self.web.load(QUrl("tick.html"))
+        
+        self.qp = QPrinter()
+        self.qp.setPrinterName("AFICIO")
+        self.qpd = QPrintDialog(self.qp)
+        self.qpd.exec_()
+        #self.qp.setPrintRange(0)
+        
+        #self.qp.setOutputFormat(1)
+        #self.qp.setOutputFileName("ticket.pdf")
+        #self.web.render(self.qp)
+        self.web.print_(self.qp)
+    except:
+      print "Error al imprimir"
     self.close()
     
     
@@ -299,9 +310,7 @@ class ventana_buscar_producto(QDialog, Ui_dialogo_busqueda_productos):
     codigo = self.modelo.record(self.table_resultados.currentIndex().row()).value("codigo").toString()
     paso_producto = codigo
     self.close()
-  
-  
-    
+   
     
 if __name__ == "__main__":
   app = QApplication(sys.argv)

@@ -21,7 +21,7 @@ class Ticket():
     #w("<div style='width:300px'>")
     w("""<p align=center><img src="logo.png" width=250px /></p>""")
     
-    w("<div style='text-align:center;text-size:75%'>")
+    w("<div style='text-align:center;font-size:75%'>")
     p("REPARACION, MANTENIMIENTO Y")
     p("ACCESORIOS")
     p("PARA EQUIPO DE COMPUTO")

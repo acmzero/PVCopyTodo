@@ -19,6 +19,7 @@ class ventana_nuevo_producto(QDialog,Ui_dialogo_agregar_producto):
     self.producto=producto(-1)
     self.pb_aceptar.clicked.connect(self.nuevo_producto)
     self.sb_existencia.setMaximum(999)
+    self.dsb_precio.setMaximum(99999)
     self.pb_cancelar.clicked.connect(self.salir)
     self.llamado=False
   

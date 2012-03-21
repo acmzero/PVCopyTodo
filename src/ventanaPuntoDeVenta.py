@@ -25,7 +25,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
   def __init__(self):
     QDialog.__init__(self)
     self.setupUi(self)
-    self.resize(1024,768)
+    self.resize(1024, 728)
     self.line_codigo.setFocus()
     self.venta = Venta(-1)
     self.venta.nueva_venta(1)
@@ -118,7 +118,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
       nombre = query.value(0).toString()
       self.clb_usuario.setText("Atiende: %s" % nombre)
       self.venta.usuario = nombre
-      self.venta.usuario_id=self.usuario_id
+      self.venta.usuario_id = self.usuario_id
     self.actualizar_cliente(self.venta.cliente_id)
     
 
@@ -130,6 +130,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     self.lbl_hora.setText(self.hora)
     if not self.venta.es_nueva:
       self.venta = Venta(-1)
+      self.venta.cliente_id = 1
       self.actualizar_productos()
       
     if not paso_producto == "":
@@ -233,7 +234,7 @@ class ventana_punto_de_venta(QDialog, Ui_dialogo_pdeventa):
     
   def logout(self):
     from login import ventana_login
-    self.vlo=ventana_login()
+    self.vlo = ventana_login()
     self.vlo.show()
     self.close()
     
@@ -273,7 +274,7 @@ class ventana_pagar(QDialog, Ui_dialogo_pagar):
         self.web.load(QUrl("tick.html"))
         
         self.qp = QPrinter()
-        self.qp.setPrinterName("AFICIO")
+        #self.qp.setPrinterName("AFICIO")
         self.qpd = QPrintDialog(self.qp)
         self.qpd.exec_()
         #self.qp.setPrintRange(0)

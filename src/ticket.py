@@ -18,7 +18,7 @@ class Ticket():
     p = lambda x:self.archivo.write("" + str(x) + "<br/>\n")
     w = lambda x:self.archivo.write(str(x) + "\n")
     
-    w("<div style='width:300px'>")
+    #w("<div style='width:300px'>")
     w("""<p align=center><img src="logo.png" width=250px /></p>""")
     
     w("<div style='text-align:center'>")
@@ -31,8 +31,8 @@ class Ticket():
     p("TEL: 674 862 45 58")
     
     w("<br/>")
-    p("CLIENTE "+str(self.venta.cliente))
-    p("LE ATENDIO "+str(self.venta.usuario))
+    p("CLIENTE " + str(self.venta.cliente))
+    p("LE ATENDIO " + str(self.venta.usuario))
     p("NOTA #%d" % self.venta.id)
     p(self.venta.fecha)
     p(self.venta.hora)
@@ -63,7 +63,7 @@ class Ticket():
     p("PRESENTANDO SU TICKET")
     
     w("</div>")
-    w("</div>")
+    #w("</div>")
     
     
     

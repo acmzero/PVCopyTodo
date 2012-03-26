@@ -71,6 +71,7 @@ class Venta():
     if codigo in self.productos.keys():
       self.productos[codigo].cantidad += cantidad
       self.productos[codigo].descuento = descuento
+      self.productos[codigo].actualizar_subtotal()
     else:
       self.productos[codigo] = producto(codigo)
       if self.productos[codigo].existe:

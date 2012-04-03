@@ -1,9 +1,8 @@
-#Sat Mar 17 12:15:15 CST 2012
+#Tue Apr 03 11:59:49 CDT 2012
 eclipse.preferences.version=1
 encoding//src/login.py=utf-8
 encoding//src/qweb.py=utf-8
 encoding//src/ticket.py=utf-8
-encoding//src/ui/buscar_productos_ui.py=utf-8
 encoding//src/ui/clientes_ui.py=utf-8
 encoding//src/ui/nuevo_producto_ui.py=utf-8
 encoding//src/ui/punto_de_venta_ui.py=utf-8

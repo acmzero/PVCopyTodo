@@ -13,20 +13,58 @@ import BaseDatos
 from ui.nuevo_producto_ui import Ui_dialogo_agregar_producto
 from producto import producto
 class ventana_nuevo_producto(QDialog,Ui_dialogo_agregar_producto):
-  def __init__(self):
+  def __init__(self,codigo=None,edicion=False):
     QDialog.__init__(self)
     self.setupUi(self)
-    self.producto=producto(-1)
-    self.pb_aceptar.clicked.connect(self.nuevo_producto)
+    if codigo==None:
+      self.producto=producto(-1)
+    else:
+      self.producto=producto(codigo)
+    
+    if edicion==False:
+      self.pb_aceptar.clicked.connect(self.nuevo_producto)
+    else:
+      self.llenar_campos()
+      self.line_codigo.setEnabled(False)
+      self.pb_aceptar.clicked.connect(self.finalizar_edicion)
+      
+      
     self.sb_existencia.setMaximum(999)
     self.dsb_precio.setMaximum(99999)
     self.pb_cancelar.clicked.connect(self.salir)
     self.llamado=False
-  
+    self.pb_aceptar.setIcon(QIcon("imagenes/enviar.png"))
+    self.pb_cancelar.setIcon(QIcon("imagenes/cancelar.png"))
+    
+  def finalizar_edicion(self):
+    datos=self.obtener_datos()[1:]
+    
+   
+    gg=QMessageBox()
+    gg.setStandardButtons(gg.Ok)
+    gg.setWindowTitle("Actualizar Producto")
+    if self.producto.editar_producto(datos):
+      gg.setText("Producto actualizado correctamente.")
+      gg.setIcon(gg.Information)
+      gg.exec_()
+      self.close()
+    else:
+      gg.setText("No actualizado, ha ocurrido un error!!")
+      gg.setIcon(gg.Warning)
+      gg.exec_()
+    
+    
+  def llenar_campos(self):
+    self.line_codigo.setText(self.producto.codigo)
+    self.line_descripcion.setText(self.producto.descripcion)
+    self.line_nombre.setText(self.producto.nombre)
+    self.dsb_precio.setValue(self.producto.precio)
+    self.sb_existencia.setValue(self.producto.existencia)
+    
   def obtener_datos(self):
-    codigo=self.line_codigo.text()
-    nombre=self.line_nombre.text()
-    descripcion=self.line_descripcion.text()
+    codigo=str(self.line_codigo.text())
+    nombre=str(self.line_nombre.text())
+    descripcion=str(self.line_descripcion.text())
     precio=float(self.dsb_precio.value())
     cantidad=int(self.sb_existencia.value())
     return (codigo,nombre,descripcion,precio,cantidad)

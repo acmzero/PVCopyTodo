@@ -66,6 +66,25 @@ class producto():
 
     self.subtotal = tmp
     
+  def eliminar_producto(self):
+    query=QSqlQuery()
+    sql="delete from productos where codigo='%s'"%self.codigo
+    
+    if query.exec_(sql):
+      return True
+    else:
+      return False
+    
+  def editar_producto(self,datos):
+    query=QSqlQuery()
+    
+    sql=""" update productos set nombre="%s", descripcion="%s", precio=%.2f, existencia=%d """%datos
+    sql+=" where codigo='%s'"%self.codigo
+    print sql
+    if query.exec_(sql):
+      return True
+    else:
+      return False
     
 
     

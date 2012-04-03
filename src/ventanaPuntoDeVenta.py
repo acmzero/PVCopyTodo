@@ -300,10 +300,21 @@ class ventana_buscar_producto(QDialog, Ui_dialogo_busqueda_productos):
     self.modelo.setQuery(sql)
     self.table_resultados.setModel(self.modelo)
     self.table_resultados.setColumnWidth(1, 300)
+    
     self.line_producto.textChanged.connect(self.actualizar_tabla)
     self.table_resultados.doubleClicked.connect(self.pasar_producto)
     self.pushButton.clicked.connect(self.pasar_producto)
+    self.pb_eliminar.clicked.connect(self.eliminar_producto)
+    self.table_resultados.clicked.connect(self.cambiar_estado_botones)
+    self.pb_editar.clicked.connect(self.editar_producto)
     
+    self.pb_editar.setIcon(QIcon("imagenes/editar.png"))
+    self.pb_eliminar.setIcon(QIcon("imagenes/borrar.png"))
+    self.pushButton.setIcon(QIcon("imagenes/enviar.png"))
+  def editar_producto(self):
+    codigo = self.modelo.record(self.table_resultados.currentIndex().row()).value("codigo").toString()
+    self.ved=ventana_nuevo_producto(codigo, True)
+    self.ved.show()
   def actualizar_tabla(self):
     sql = "select * from busqueda_productos where nombre like '%%%s%%'" % self.line_producto.text()
     self.modelo.setQuery(sql)
@@ -313,6 +324,39 @@ class ventana_buscar_producto(QDialog, Ui_dialogo_busqueda_productos):
     codigo = self.modelo.record(self.table_resultados.currentIndex().row()).value("codigo").toString()
     paso_producto = codigo
     self.close()
+    
+  def eliminar_producto(self):
+    codigo = self.modelo.record(self.table_resultados.currentIndex().row()).value("codigo").toString()
+    
+    if len(codigo)>=3:
+      gg=QMessageBox()
+      gg.setText("Seguro que deseas eliminar este producto??")
+      gg.setStandardButtons(gg.Ok|gg.Cancel)
+      gg.setDefaultButton(gg.Cancel)
+      gg.setWindowTitle("Eliminar Producto.")
+      gg.exec_()
+      
+      if gg.result()==gg.Ok:
+        p=producto(codigo)
+        if p.eliminar_producto():
+          gg.setText("Producto eliminado.")
+          gg.setStandardButtons(gg.Ok)
+          gg.exec_()
+          self.actualizar_tabla()
+        else:
+          gg.setText("Error al Eliminar producto.")
+          gg.setStandardButtons(gg.Ok)
+          gg.exec_()
+          
+        
+  def cambiar_estado_botones(self):
+    codigo = self.modelo.record(self.table_resultados.currentIndex().row()).value("codigo").toString()
+    if len(codigo)<3:
+      self.pb_editar.setEnabled(False)
+      self.pb_eliminar.setEnabled(False)
+    else:
+      self.pb_editar.setEnabled(True)
+      self.pb_eliminar.setEnabled(True)    
    
     
 if __name__ == "__main__":
